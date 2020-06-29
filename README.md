@@ -25,7 +25,7 @@ Grab the `./output/` directory and use it! :+1:
 
 __To run this set of scripts you'll need working Docker, GNU make and BASH installed.__
 
-Register and login to the [developer.redhat.com](https://https://developers.redhat.com/) website.
+Register and login to the [developer.redhat.com](https://developers.redhat.com/) website.
 
 Go to `./prepare_scripts/redhat-7/`.
 
