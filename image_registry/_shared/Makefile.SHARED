@@ -1,0 +1,35 @@
+
+# This Makefile is designed to be included from another Makefile.
+
+.PHONY: all
+
+all: up
+
+.PHONY: up_no_logs logs up down purge ps
+
+up_no_logs: $(COMPOSE_FILE)
+	@docker-compose --file $< up --detach
+
+logs: $(COMPOSE_FILE)
+	@docker-compose --file $< logs --follow
+
+up: up_no_logs logs
+
+down: $(COMPOSE_FILE)
+	@docker-compose --file $< down
+
+purge: $(COMPOSE_FILE)
+	@docker-compose --file $< down --volumes
+
+ps: $(COMPOSE_FILE)
+	@docker-compose --file $< ps
+
+.PHONY: exec_repository exec_image_registry
+
+exec_repository: $(COMPOSE_FILE)
+	@docker-compose --file $< exec repository /bin/sh
+
+exec_image_registry: $(COMPOSE_FILE)
+	@docker-compose --file $< exec image_registry /bin/sh
+
+# vim:ts=4:sw=4:noet:syn=make:
