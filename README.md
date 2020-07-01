@@ -74,7 +74,7 @@ The docker-compose yaml config has been interfaced with the following Makefile r
 ```make
 .PHONY: all
 
-all: prepare_scripts
+all: up
 
 .PHONY: up_no_logs logs up down purge ps
 
