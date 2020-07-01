@@ -15,7 +15,7 @@ volumes:
 
 services:
   repository:
-    image: httpd:2.4
+    image: httpd:2.4-alpine
     networks:
       default:
         aliases: [repository.epiphany.lh]
