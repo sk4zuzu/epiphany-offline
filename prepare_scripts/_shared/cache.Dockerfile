@@ -5,7 +5,7 @@ RUN : INSTALL REQUIRED PACKAGES \
  && export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y \
-    git curl \
+    git curl gcc \
  && apt-get clean
 
 ARG YQ_VERSION=3.3.2
