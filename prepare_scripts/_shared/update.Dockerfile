@@ -9,8 +9,9 @@ ARG EPIPHANY_BRANCH
 
 WORKDIR /workspaces/epiphany/core/src/epicli/
 
-RUN : PULL LATEST COMMITS FROM THE EPIPHANY GITHUB REPO \
- && git pull origin ${EPIPHANY_BRANCH}
+RUN : FORCEFULLY PULL LATEST COMMITS FROM THE EPIPHANY GITHUB REPO \
+ && git fetch origin ${EPIPHANY_BRANCH} \
+ && git reset --hard origin/${EPIPHANY_BRANCH}
 
 RUN : UPDATE PIP REQUIREMENTS \
  && pip3 --no-cache-dir install -r ./.devcontainer/requirements.txt
