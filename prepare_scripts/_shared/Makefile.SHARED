@@ -1,0 +1,52 @@
+
+# This Makefile is designed to be included from another Makefile.
+
+.PHONY: all
+
+all: prepare_scripts
+
+.PHONY: cache_image update_image collect_image prepare_scripts
+
+cache_image: $(SELF)/../_shared/cache.Dockerfile
+	# Build without context.
+	docker build -t epiphany-offline-$(NAME)-prepare_scripts-cache \
+	    --build-arg EPIPHANY_REMOTE=$(EPIPHANY_REMOTE) \
+	    --build-arg EPIPHANY_BRANCH=$(EPIPHANY_BRANCH) \
+	    - < $<
+
+update_image: $(SELF)/../_shared/update.Dockerfile cache_image
+	# Build without context.
+	docker build -t epiphany-offline-$(NAME)-prepare_scripts-update \
+	    --build-arg NAME=$(NAME) \
+	    --build-arg EPIPHANY_BRANCH=$(EPIPHANY_BRANCH) \
+	    --no-cache \
+	    - < $<
+
+collect_image: $(SELF)/collect.Dockerfile update_image
+	# Make sure the destination image is up to date.
+	docker pull $(DESTINATION_IMAGE)
+	# Build without context.
+	docker build -t epiphany-offline-$(NAME)-prepare_scripts-collect \
+	    --build-arg NAME=$(NAME) \
+	    --build-arg DESTINATION_IMAGE=$(DESTINATION_IMAGE) \
+	    --build-arg HOST_UID=$(HOST_UID) \
+	    --build-arg HOST_GID=$(HOST_GID) \
+	    - < $<
+
+prepare_scripts: collect_image
+	# Execute Epiphany's "prepare scripts" to collect the offline package.
+	docker run --rm -v $(OUTPUT_DIR)/:/output_directory/ -t epiphany-offline-$(NAME)-prepare_scripts-collect
+
+.PHONY: clean_images clean_output clean
+
+clean_images:
+	-docker rmi epiphany-offline-$(NAME)-prepare_scripts-collect
+	-docker rmi epiphany-offline-$(NAME)-prepare_scripts-update
+	-docker rmi epiphany-offline-$(NAME)-prepare_scripts-cache
+
+clean_output:
+	-rm -rf $(OUTPUT_DIR)/
+
+clean: clean_images clean_output
+
+# vim:ts=4:sw=4:noet:syn=make:

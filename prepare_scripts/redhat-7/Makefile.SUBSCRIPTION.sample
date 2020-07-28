@@ -1,0 +1,7 @@
+
+# This Makefile is designed to be included from another Makefile.
+
+SUBSCRIPTION_USERNAME := <account-username-from-developers.redhat.com>
+SUBSCRIPTION_PASSWORD := <account-password-from-developers.redhat.com>
+
+# vim:ts=4:sw=4:noet:syn=make:
