@@ -1,5 +1,5 @@
 
-SELF := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+SELF := $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 NAME := $(notdir $(SELF))
 
 EPIPHANY_REMOTE ?= https://github.com/epiphany-platform/epiphany.git
