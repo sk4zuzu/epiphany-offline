@@ -1,4 +1,3 @@
-
 ARG DESTINATION_IMAGE
 ARG NAME
 
@@ -49,5 +48,3 @@ CMD : COLLECT ALL REQUIRED EPIPHANY OFFLINE SOFTWARE \
  && cp /prepare_scripts/images_to_load.json /output_directory/ \
  && : SET PROPER FILE PERMISSIONS \
  && exec chown -R ${HOST_UID}:${HOST_GID} /output_directory/
-
-# vim:ts=2:sw=2:et:syn=dockerfile:

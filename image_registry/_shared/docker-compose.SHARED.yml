@@ -1,5 +1,4 @@
 ---
-
 version: "2"
 
 networks:
@@ -71,5 +70,3 @@ services:
             skopeo copy --quiet --dest-tls-verify=false "docker-archive:/offline_directory/images/$${FILE_NAME}" "docker://image-registry.epiphany.lh:5000/$${NAME}";
           fi;
         done;
-
-# vim:ts=2:sw=2:et:syn=yaml:
