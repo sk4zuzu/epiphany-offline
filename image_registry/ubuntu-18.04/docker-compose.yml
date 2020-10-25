@@ -1,0 +1,23 @@
+---
+version: "2"
+
+services:
+  repository:
+    image: epiphany-offline-repository_ubuntu_1804
+    entrypoint: []
+    command:
+      - /bin/bash
+      - -c
+      - >-
+        set -o errexit -o nounset -o pipefail;
+
+        : RUN DPKG-SCANPACKAGES;
+        cd /usr/local/apache2/htdocs/epirepo/packages/;
+        dpkg-scanpackages -m . | gzip -9c > Packages.gz;
+
+        : CREATE HELM INDEX;
+        cd /usr/local/apache2/htdocs/epirepo/charts/system/;
+        helm repo index .;
+
+        : RUN HTTPD;
+        httpd-foreground;
