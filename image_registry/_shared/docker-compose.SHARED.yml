@@ -14,7 +14,9 @@ volumes:
 
 services:
   repository:
-    image: httpd:2.4-alpine
+    build:
+      context: .
+      dockerfile: repository.Dockerfile
     networks:
       default:
         aliases: [repository.epiphany.lh]
@@ -22,7 +24,7 @@ services:
     ports:
       - ${REPOSITORY_PORT}:80/tcp
     volumes:
-      - ${OFFLINE_DIR}/:/usr/local/apache2/htdocs/:ro
+      - ${OFFLINE_DIR}/:/usr/local/apache2/htdocs/epirepo/:rw
     restart: "unless-stopped"
 
   image_registry:
