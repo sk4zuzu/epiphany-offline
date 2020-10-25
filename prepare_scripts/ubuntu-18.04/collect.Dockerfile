@@ -30,5 +30,7 @@ CMD : COLLECT ALL REQUIRED EPIPHANY OFFLINE SOFTWARE \
  && ./download-requirements.sh /output_directory/ \
  && : COPY THE "IMAGES TO LOAD" LIST \
  && cp /prepare_scripts/images_to_load.json /output_directory/ \
+ && : COPY HELM CHARTS \
+ && cp -r /prepare_scripts/charts/ /output_directory/ \
  && : SET PROPER FILE PERMISSIONS \
  && exec chown -R ${HOST_UID}:${HOST_GID} /output_directory/
