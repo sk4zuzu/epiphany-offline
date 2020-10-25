@@ -41,7 +41,10 @@ services:
 
   skopeo_upload:
     depends_on: [image_registry]
-    image: alpine:3
+    image: epiphany-offline-skopeo_upload
+    build:
+      context: .
+      dockerfile: skopeo_upload.Dockerfile
     networks:
       default:
         aliases: [skopeo-upload.epiphany.lh]
@@ -54,9 +57,6 @@ services:
       - /bin/sh
       - -ec
       - >-
-        : INSTALL CURL, JQ AND SKOPEO;
-        apk --no-cache add curl jq skopeo;
-
         : WAIT FOR REGISTRY TO BECOME AVAILABLE;
         for RETRY in 9 8 7 6 5 4 3 2 1 0; do
           if curl -fsSL "http://image-registry.epiphany.lh:5000/v2/"; then
