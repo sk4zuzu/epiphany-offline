@@ -1,0 +1,6 @@
+region   = "eu-west-3"
+env_name = "epiphany-offline"
+destroy  = false
+ubuntu   = true
+centos   = false
+redhat   = false
