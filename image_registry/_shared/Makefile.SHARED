@@ -1,5 +1,6 @@
-
 # This Makefile is designed to be included from another Makefile.
+
+DC = docker-compose $(foreach item,$(1),--file $(item))
 
 .PHONY: all
 
@@ -7,29 +8,27 @@ all: up
 
 .PHONY: up_no_logs logs up down purge ps
 
-up_no_logs: $(COMPOSE_FILE)
-	@docker-compose --file $< up --detach
+up_no_logs: $(COMPOSE_FILES)
+	@$(call DC,$^) up --build --detach
 
-logs: $(COMPOSE_FILE)
-	@docker-compose --file $< logs --follow
+logs: $(COMPOSE_FILES)
+	@$(call DC,$^) logs --follow
 
 up: up_no_logs logs
 
-down: $(COMPOSE_FILE)
-	@docker-compose --file $< down
+down: $(COMPOSE_FILES)
+	@$(call DC,$^) down
 
-purge: $(COMPOSE_FILE)
-	@docker-compose --file $< down --volumes
+purge: $(COMPOSE_FILES)
+	@$(call DC,$^) down --volumes
 
-ps: $(COMPOSE_FILE)
-	@docker-compose --file $< ps
+ps: $(COMPOSE_FILES)
+	@$(call DC,$^) ps
 
 .PHONY: exec_repository exec_image_registry
 
-exec_repository: $(COMPOSE_FILE)
-	@docker-compose --file $< exec repository /bin/sh
+exec_repository: $(COMPOSE_FILES)
+	@$(call DC,$^) exec repository /bin/sh
 
-exec_image_registry: $(COMPOSE_FILE)
-	@docker-compose --file $< exec image_registry /bin/sh
-
-# vim:ts=4:sw=4:noet:syn=make:
+exec_image_registry: $(COMPOSE_FILES)
+	@$(call DC,$^) exec image_registry /bin/sh

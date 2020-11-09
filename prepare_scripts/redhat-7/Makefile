@@ -1,4 +1,3 @@
-
 SELF := $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 NAME := $(notdir $(SELF))
 
@@ -32,5 +31,3 @@ collect_image: $(SELF)/collect.Dockerfile update_image
 	    --build-arg HOST_UID=$(HOST_UID) \
 	    --build-arg HOST_GID=$(HOST_GID) \
 	    - < $<
-
-# vim:ts=4:sw=4:noet:syn=make:

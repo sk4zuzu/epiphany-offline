@@ -1,0 +1,26 @@
+---
+version: "2"
+
+services:
+  repository:
+    image: epiphany-offline-repository_redhat_7
+    entrypoint: []
+    command:
+      - /bin/bash
+      - -c
+      - >-
+        set -o errexit -o nounset -o pipefail;
+
+        : RUN CREATEREPOS;
+        cd /usr/local/apache2/htdocs/epirepo/packages/;
+        createrepo .;
+
+        : CREATE HELM INDEX;
+        cd /usr/local/apache2/htdocs/epirepo/charts/system/;
+        find -mindepth 1 -maxdepth 1 -type d | while read NAME; do
+          tar czf $${NAME}.tgz -C $${NAME}/ .;
+        done;
+        helm repo index .;
+
+        : RUN HTTPD;
+        httpd-foreground;

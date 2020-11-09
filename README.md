@@ -1,4 +1,3 @@
-
 ## USAGE
 
 ### 1. EPIPHANY'S "PREPARE SCRIPTS"
@@ -161,5 +160,3 @@ REPOSITORY_PORT=8082
 
 IMAGE_REGISTRY_PORT=5002
 ```
-
-[//]: # ( vim:set ts=2 sw=2 et syn=markdown: )

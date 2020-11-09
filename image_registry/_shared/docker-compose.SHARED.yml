@@ -1,5 +1,4 @@
 ---
-
 version: "2"
 
 networks:
@@ -15,7 +14,9 @@ volumes:
 
 services:
   repository:
-    image: httpd:2.4-alpine
+    build:
+      context: .
+      dockerfile: repository.Dockerfile
     networks:
       default:
         aliases: [repository.epiphany.lh]
@@ -23,7 +24,7 @@ services:
     ports:
       - ${REPOSITORY_PORT}:80/tcp
     volumes:
-      - ${OFFLINE_DIR}/:/usr/local/apache2/htdocs/:ro
+      - ${OFFLINE_DIR}/:/usr/local/apache2/htdocs/epirepo/:rw
     restart: "unless-stopped"
 
   image_registry:
@@ -40,7 +41,10 @@ services:
 
   skopeo_upload:
     depends_on: [image_registry]
-    image: alpine:3
+    image: epiphany-offline-skopeo_upload
+    build:
+      context: .
+      dockerfile: skopeo_upload.Dockerfile
     networks:
       default:
         aliases: [skopeo-upload.epiphany.lh]
@@ -53,9 +57,6 @@ services:
       - /bin/sh
       - -ec
       - >-
-        : INSTALL CURL, JQ AND SKOPEO;
-        apk --no-cache add curl jq skopeo;
-
         : WAIT FOR REGISTRY TO BECOME AVAILABLE;
         for RETRY in 9 8 7 6 5 4 3 2 1 0; do
           if curl -fsSL "http://image-registry.epiphany.lh:5000/v2/"; then
@@ -71,5 +72,3 @@ services:
             skopeo copy --quiet --dest-tls-verify=false "docker-archive:/offline_directory/images/$${FILE_NAME}" "docker://image-registry.epiphany.lh:5000/$${NAME}";
           fi;
         done;
-
-# vim:ts=2:sw=2:et:syn=yaml:

@@ -1,10 +1,9 @@
-
 SELF := $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 
-COMPOSE_FILE := $(abspath $(SELF)/../_shared/docker-compose.SHARED.yml)
+COMPOSE_FILES := \
+$(abspath $(SELF)/../_shared/docker-compose.SHARED.yml) \
+$(SELF)/docker-compose.yml
 
 export
 
 include $(SELF)/../_shared/Makefile.SHARED
-
-# vim:ts=4:sw=4:noet:syn=make:

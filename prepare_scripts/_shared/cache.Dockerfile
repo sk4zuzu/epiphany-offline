@@ -1,4 +1,3 @@
-
 FROM python:3.7-slim
 
 RUN : INSTALL REQUIRED PACKAGES \
@@ -33,5 +32,3 @@ RUN : PRINT EPIPHANY VERSION \
 
 ENTRYPOINT []
 CMD []
-
-# vim:ts=2:sw=2:et:syn=dockerfile:

@@ -1,4 +1,3 @@
-
 SELF := $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 NAME := $(notdir $(SELF))
 
@@ -15,5 +14,3 @@ OUTPUT_DIR ?= $(SELF)/output
 export
 
 include $(SELF)/../_shared/Makefile.SHARED
-
-# vim:ts=4:sw=4:noet:syn=make:

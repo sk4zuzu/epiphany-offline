@@ -1,4 +1,3 @@
-
 # Please note, this image is supposed to be built with the --no-cache option.
 
 ARG NAME
@@ -29,5 +28,3 @@ RUN : RENDER THE "IMAGES TO LOAD" LIST \
 
 ENTRYPOINT []
 CMD []
-
-# vim:ts=2:sw=2:et:syn=dockerfile:
