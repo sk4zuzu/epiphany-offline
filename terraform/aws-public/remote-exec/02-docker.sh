@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ "$UID" != 0 ]]; then
+if [[ "${UID}" != 0 ]]; then
     exec sudo "$0" "$@"
 fi
 
