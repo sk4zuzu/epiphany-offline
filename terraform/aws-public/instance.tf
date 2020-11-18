@@ -1,6 +1,10 @@
 resource "aws_instance" "aws-public" {
   count = var.destroy ? 0 : 1
 
+  lifecycle {
+    ignore_changes = [ami]
+  }
+
   ami           = data.aws_ami.aws-public.id
   instance_type = var.instance_type
 

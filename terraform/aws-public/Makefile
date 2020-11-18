@@ -7,7 +7,7 @@ export
 
 all: apply
 
-.PHONY: plan apply destroy init
+.PHONY: plan apply destroy init refresh
 
 init:
 	terraform $@
@@ -15,19 +15,26 @@ init:
 plan apply destroy: init
 	terraform $@
 
+refresh: refresh-ubuntu refresh-centos refresh-redhat apply
+
+.PHONY: refresh-ubuntu refresh-centos refresh-redhat
+
+refresh-ubuntu:
+	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-ubuntu[0]'
+
+refresh-centos:
+	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-centos[0]'
+
+refresh-redhat:
+	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-redhat[0]'
+
 .PHONY: ubuntu centos redhat
 
-ubuntu:
-	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-ubuntu[0]'
-	terraform apply
+ubuntu: refresh-ubuntu apply
 
-centos:
-	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-centos[0]'
-	terraform apply
+centos: refresh-centos apply
 
-redhat:
-	-terraform state rm 'null_resource.aws-public-clone[0]' 'null_resource.aws-public-redhat[0]'
-	terraform apply
+redhat: refresh-redhat apply
 
 .PHONY: ssh
 
