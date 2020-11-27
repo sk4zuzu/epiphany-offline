@@ -3,17 +3,11 @@ http:
     repository:
       loadBalancer:
         servers:
-          - url: http://repository.epiphany.lh
+          - url: http://repository.epiphany.lh:80
     image_registry:
       loadBalancer:
         servers:
           - url: http://image-registry.epiphany.lh:5000
-
-  middlewares:
-    image_registry:
-      stripPrefix:
-        prefixes: [/epirepo-docker]
-        forceSlash: false
 
   routers:
     repository: &repository
@@ -24,17 +18,20 @@ http:
       <<: *repository
       entrypoints: [websecure]
       tls: {}
+
     image_registry: &image_registry
       entrypoints: [web]
-      rule: PathPrefix(`/epirepo-docker`)
+      rule: PathPrefix(`/`)
       service: image_registry
-      middlewares: [image_registry]
     image_registry_secure:
       <<: *image_registry
       entrypoints: [websecure]
       tls: {}
 
 tls:
+  options:
+    default:
+      sniStrict: true
   stores:
     default:
       defaultCertificate:
