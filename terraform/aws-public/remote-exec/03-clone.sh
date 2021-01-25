@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 : ${EPIPHANY_OFFLINE_WORKSPACE:=/terraform/epiphany-offline}
-: ${EPIPHANY_OFFLINE_REMOTE:=https://github.com/sk4zuzu/epiphany-offline.git}
-: ${EPIPHANY_OFFLINE_BRANCH:=master}
+: ${EPIPHANY_OFFLINE_REMOTE:=https://github.com/epiphany-platform/epiphany-offline.git}
+: ${EPIPHANY_OFFLINE_BRANCH:=develop}
 
 set -o errexit -o nounset -o pipefail
 set -x
